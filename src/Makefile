@@ -45,7 +45,7 @@ OBJS   	= main.o\
 	  splint.o\
 	  write_tuv.o\
 	  
-PROGRAM = rism3d
+PROGRAM = 3drism
 .cc.o:
 	$(CC) $(CFLAGS) -c $< -o $@
 
