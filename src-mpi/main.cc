@@ -1,8 +1,15 @@
 #include <iostream>
 #include <fstream>
+#include <mpi.h>
 #include "rism3d.h"
 
 int main (int argc, char * argv[]) {
+  int procs, myrank;
+
+  MPI_Init(&argc, &argv);
+  MPI_Comm_size(MPI_COMM_WORLD, &procs);
+  MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
+
   RISM3D * system;
 
   system = new RISM3D;
@@ -20,5 +27,6 @@ int main (int argc, char * argv[]) {
   system -> iterate();
   system -> output();    
 
+  MPI_Finalize();
   return(0);
 }

@@ -1,4 +1,4 @@
-CC 	= g++
+CC 	= mpic++
 
 CFLAGS 	= -O3 -fomit-frame-pointer -fopenmp
 #CFLAGS 	= -O3 -march=i586 -fomit-frame-pointer -I/home/maruyama/libs/include
