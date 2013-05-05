@@ -4,7 +4,7 @@ CFLAGS 	= -O3 -fomit-frame-pointer -fopenmp
 #CFLAGS 	= -O3 -march=i586 -fomit-frame-pointer -I/home/maruyama/libs/include
 #CFLAGS 	= -O3 -march=i686 -fomit-frame-pointer
 #LIBS = -L/home/maruyama/libs/lib -lfftw3 
-LIBS = -lfftw3_threads -lfftw3 -lm
+LIBS = -L/usr/local/lib -lfftw3_mpi -lfftw3 -lm
 
 OBJS   	= main.o\
 	  alloc2D.o\
@@ -37,6 +37,7 @@ OBJS   	= main.o\
 	  read_input.o\
 	  read_tuv.o\
 	  set_fname.o\
+	  set_mpi.o\
 	  set_solvent.o\
 	  solute.o\
 	  solvent_read.o\

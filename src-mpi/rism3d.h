@@ -8,6 +8,7 @@
 #include <string>
 #include <valarray>
 #include <vector>
+#include <mpi.h>
 #include "physical.h"
 #include "cell.h"
 #include "control.h"
@@ -44,6 +45,7 @@ private:
   void read_input (char[]);
   void read_tuv ();
   void set_fname (char[]);
+  void set_mpi ();
   void set_solvent ();
   void write_tuv ();
 
@@ -61,10 +63,11 @@ private:
   int * indga;
 
   string outlist;
-  string closure;
   string fsolvent;
   string fname;
+  int clos;
   int nga;
+  int procs, myrank;
 
   Cell * ce;
   Control * co;

@@ -3,6 +3,7 @@
 
 #include <valarray>
 #include <vector>
+#include <mpi.h>
 using namespace std;
 
 class AN2 {
@@ -11,6 +12,7 @@ public:
   ~AN2 ();
   void initialize (double * &, int, int);
   void calculate (vector <double *> &, vector <double *> &);
+  void setup_mpi();
   double m;
   double mp;
   int count;

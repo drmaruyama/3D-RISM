@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "anderson.h"
 
 AN2 :: ~AN2 () {
@@ -7,6 +5,12 @@ AN2 :: ~AN2 () {
   delete[] a, c, x;
   dealloc2D (tp);
   dealloc2D (rp);
+}
+
+void AN2 :: setup_mpi() {
+  MPI_Bcast(&count, 1, MPI_INT, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&m, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&mp, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 }
 
 void AN2 :: initialize (double * & rhov, int r, int v) {

@@ -1,4 +1,3 @@
-#include <iostream>
 #include "rism3d.h"
 
 valarray <double> RISM3D :: cal_exchem () {
@@ -6,7 +5,7 @@ valarray <double> RISM3D :: cal_exchem () {
   double dxmu = 0.0;
   valarray <double> xmu;
   xmu.resize(sv -> natv);
-  if (closure == "KH") {
+  if (clos == 0) {
     for (int iv = 0; iv < sv -> natv; ++iv) {
       double dxmuv = 0.0;
 #pragma omp parallel for reduction(+: dxmuv)
@@ -21,7 +20,7 @@ valarray <double> RISM3D :: cal_exchem () {
       }
       xmu[iv] = sv -> rhov[iv] * dxmuv;
     }
-  } else if (closure == "HNC") {
+  } else if (clos == 1) {
     for (int iv = 0; iv < sv -> natv; ++iv) {
       double dxmuv = 0.0 ;
 #pragma omp parallel for reduction(+: dxmuv)
@@ -31,9 +30,7 @@ valarray <double> RISM3D :: cal_exchem () {
       }
       xmu[iv] = sv -> rhov[iv] * dxmuv;
     }
-  } else {
-    cout << "EXCHEM: unexpected closure switch " << closure << endl ;
-  }
+  } 
 
   for (int iv = 0; iv < sv -> natv; ++iv) {
     xmu[iv] = xmu[iv] * ce -> dv;
