@@ -19,7 +19,15 @@ void RISM3D :: read_input (char inputfile[]) {
     exit (1);
   }
 
+  string closure;
   in_file >> closure;
+  if (closure == "KH") {
+    clos = 0;
+  } else if (closure == "HNC") {
+    clos = 1;
+  } else {
+    cout << "3D-RISM: unexpected closure switch " << endl;
+  }
   in_file >> fsolvent;
   in_file >> co -> convergence >> co -> maxstep;
   in_file >> ma -> count >> ma -> m >> ma -> mp;

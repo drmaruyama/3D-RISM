@@ -60,4 +60,3 @@ void Solvent :: read(string fsolvent) {
 
   in_file.close();
 }
-

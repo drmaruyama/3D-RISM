@@ -61,9 +61,9 @@ private:
   int * indga;
 
   string outlist;
-  string closure;
   string fsolvent;
   string fname;
+  int clos;
   int nga;
 
   Cell * ce;

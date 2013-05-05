@@ -19,6 +19,5 @@ void Cell :: setup_mpi() {
   mgrid = (int) fftw_mpi_local_size_3d(grid[2], grid[1], grid[0],
 				       MPI_COMM_WORLD, & n0, & n0s);
   zstart = (int) n0s;
-  zend   = zstart + (int) n0 - 1;
+  zend   = zstart + (int) n0;
 }
-

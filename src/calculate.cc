@@ -1,8 +1,7 @@
-#include <iostream>
 #include "rism3d.h"
 
 void RISM3D :: calculate () {
-  if (closure == "KH") {
+  if (clos == 0) {
     for (int iv = 0; iv < sv -> natv; ++iv) {
 #pragma omp parallel for
       for (int ig = 0; ig < ce -> ngrid; ++ig) {
@@ -14,15 +13,13 @@ void RISM3D :: calculate () {
 	}	
       }
     }
-  } else if (closure == "HNC") {
+  } else if (clos == 1) {
     for (int iv = 0; iv < sv -> natv; ++iv) {
 #pragma omp parallel for
       for (int ig = 0; ig < ce -> ngrid; ++ig) {
 	tuvdif[iv][ig] = exp(- uuv[iv][ig] + tuv[iv][ig]);
       }
     }
-  } else {
-    cout << "R1RISM: unexpected closure switch " << endl;
   }
 
   for (int iv = 0; iv < sv -> natv; ++iv) {

@@ -5,6 +5,7 @@ void RISM3D :: initialize(char inputfile[]) {
   read_input(inputfile);
   set_fname(inputfile);
   initialize_g();
+  exit(1);
   set_solvent();
   cal_potential();
 } 
