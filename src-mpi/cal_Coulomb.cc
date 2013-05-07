@@ -3,28 +3,30 @@
 
 void RISM3D :: cal_Coulomb (double * & euv) {
 
-  euv = new double[ce -> ngrid];
-  fr = new double[ce -> ngrid];
-  fk = new complex <double>[ce -> ngrid];
+  euv = new double[ce -> mgrid];
+  fr = new double[ce -> mgrid];
+  fk = new complex <double>[ce -> mgrid];
 
-  cout << "synthesizing solute Coulomb potential ..." << endl;
+  if (myrank == 0) {
+    cout << "synthesizing solute Coulomb potential ..." << endl;
+  }
 
 #pragma omp parallel for
-  for (int ig = 0; ig < ce -> ngrid; ++ig){
+  for (int ig = 0; ig < ce -> mgrid; ++ig){
     euv[ig] = 0.0;
     fr[ig] = 0.0;
     fk[ig] = complex<double>(0.0, 0.0);
   }
 
 #pragma omp parallel for
-  for (int igz = 0; igz < ce -> grid[2]; ++igz) {
+  for (int igz = ce -> zstart; igz < ce -> zend; ++igz) {
     double rz = (igz - ce -> grid[2] / 2) * ce -> dr[2];
     for (int igy = 0; igy < ce -> grid[1]; ++igy) {
       double ry = (igy - ce -> grid[1] / 2) * ce -> dr[1];
       for (int igx = 0; igx < ce -> grid[0]; ++igx) {
 	double rx = (igx - ce -> grid[0] / 2) * ce -> dr[0];
 	int ig = igx + igy * ce -> grid[0] 
-	  + igz * ce -> grid[0] * ce -> grid[1];
+	  + (igz - ce -> zstart) * ce -> grid[0] * ce -> grid[1];
 	double rk2 = gv[ig][0] * gv[ig][0] + gv[ig][1] * gv[ig][1]
 	  + gv[ig][2] * gv[ig][2];
 	double irk4 = 1.0 / (rk2 * (rk2 + 1.0));
@@ -55,7 +57,7 @@ void RISM3D :: cal_Coulomb (double * & euv) {
   complex <double> cubeta = complex <double> (ubeta, 0.0);
 
 #pragma omp parallel for
-  for (int ig = 0; ig < ce -> ngrid; ++ig){
+  for (int ig = 0; ig < ce -> mgrid; ++ig){
     euv[ig] = euv[ig] * ubeta;
     fr[ig] = fr[ig] * ubeta;
     fk[ig] = fk[ig] * cubeta;

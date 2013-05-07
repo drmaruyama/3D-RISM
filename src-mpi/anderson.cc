@@ -7,11 +7,13 @@ AN2 :: ~AN2 () {
   dealloc2D (rp);
 }
 
+
 void AN2 :: setup_mpi() {
   MPI_Bcast(&count, 1, MPI_INT, 0, MPI_COMM_WORLD);
   MPI_Bcast(&m, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
   MPI_Bcast(&mp, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 }
+
 
 void AN2 :: initialize (double * & rhov, int r, int v) {
   void alloc2D (vector <double *> &, int, int);
@@ -51,6 +53,7 @@ void AN2 :: calculate (vector <double *> & t, vector <double *> & r) {
 
 void AN2 :: cal_theta (vector <double *> & t, vector <double *> & r) {
   double s0, s1, s2, s3, s4;
+  double ss0, ss1, ss2, ss3, ss4;
   c[0] = c[1] = a[0] = a[1] = a[3] = 0.0;
   for (int iv = 0; iv < niv; ++iv) {
     s0 = s1 = s2 = s3 = s4 = 0.0;
@@ -64,13 +67,19 @@ void AN2 :: cal_theta (vector <double *> & t, vector <double *> & r) {
       s3 += t1 * t2;
       s4 += t2 * t2;
     }
-    c[0] += s0 * irho[iv];
-    c[1] += s1 * irho[iv];
-    a[0] += s2 * irho[iv];
-    a[1] += s3 * irho[iv];
-    a[3] += s4 * irho[iv];
+    MPI_Allreduce(&s0, &ss0, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(&s1, &ss1, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(&s2, &ss2, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(&s3, &ss3, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    MPI_Allreduce(&s4, &ss4, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+    c[0] += ss0 * irho[iv];
+    c[1] += ss1 * irho[iv];
+    a[0] += ss2 * irho[iv];
+    a[1] += ss3 * irho[iv];
+    a[3] += ss4 * irho[iv];
   }
 }
+
 
 void AN2 :: newt (vector <double *> & t, vector <double *> & r) {
   for (int iv = 0; iv < niv; ++iv) {

@@ -1,6 +1,7 @@
 CC 	= mpic++
 
-CFLAGS 	= -O3 -fomit-frame-pointer -fopenmp
+CFLAGS 	= -O3 -fomit-frame-pointer
+#CFLAGS 	= -O3 -fomit-frame-pointer -fopenmp
 #CFLAGS 	= -O3 -march=i586 -fomit-frame-pointer -I/home/maruyama/libs/include
 #CFLAGS 	= -O3 -march=i686 -fomit-frame-pointer
 #LIBS = -L/home/maruyama/libs/lib -lfftw3 
@@ -20,6 +21,7 @@ OBJS   	= main.o\
 	  calculate.o\
 	  calloc2D.o\
 	  cell.o\
+	  control.o\
 	  dealloc2D.o\
 	  dealloc3D.o\
 	  fft3d.o\
@@ -41,6 +43,7 @@ OBJS   	= main.o\
 	  set_solvent.o\
 	  solute.o\
 	  solvent_read.o\
+	  solvent_setup_mpi.o\
 	  solvent_spline.o\
 	  spline.o\
 	  splint.o\

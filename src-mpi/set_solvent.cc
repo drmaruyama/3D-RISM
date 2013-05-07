@@ -4,5 +4,6 @@
 
 void RISM3D :: set_solvent () {
   if (myrank == 0) sv -> read(fsolvent);
-  sv -> spline(ga, indga, nga, ce -> ngrid);
+  sv -> setup_mpi(myrank);
+  sv -> spline(ga, indga, nga, ce -> mgrid);
 }

@@ -7,8 +7,10 @@ void RISM3D :: cal_LJ() {
   const double cut = 1.0e-2;
   const double cut2 = cut * cut;
 
-  cout << "tabulating solute Lennard-Jones potential ..." << endl;
-    
+  if (myrank == 0) {
+    cout << "tabulating solute Lennard-Jones potential ..." << endl;
+  }
+
   alloc2D (siguv, sv -> natv, su -> num);
   alloc2D (epsuv, sv -> natv, su -> num);
 
@@ -20,25 +22,25 @@ void RISM3D :: cal_LJ() {
     }
   }
 
-  alloc2D (uuv, sv -> natv, ce -> ngrid);
+  alloc2D (uuv, sv -> natv, ce -> mgrid);
     
   for (int iv = 0; iv < sv -> natv; ++iv) {
 #pragma omp parallel for
-    for (int ig = 0; ig < ce -> ngrid; ++ig) {	
+    for (int ig = 0; ig < ce -> mgrid; ++ig) {	
       uuv[iv][ig] = 0.0;
     }
   }
 
   for (int iv = 0; iv < sv -> natv; ++iv) {
 #pragma omp parallel for
-    for (int igz = 0; igz < ce -> grid[2]; ++igz) {
+    for (int igz = ce -> zstart; igz < ce -> zend; ++igz) {
       double rz = (igz - ce -> grid[2] / 2) * ce -> dr[2];
       for (int igy = 0; igy < ce -> grid[1]; ++igy) {
 	double ry = (igy - ce -> grid[1] / 2) * ce -> dr[1];
 	for (int igx = 0; igx < ce -> grid[0]; ++igx) {
 	  double rx = (igx - ce -> grid[0] / 2) * ce -> dr[0];
 	  int ig = igx + igy * ce -> grid[0] 
-	    + igz * ce -> grid[0] * ce -> grid[1];
+	    + (igz - ce -> zstart) * ce -> grid[0] * ce -> grid[1];
 	  for (int iu = 0; iu < su -> num; ++iu) {
 	    int num = iu * 3;
 	    double dx = rx - su -> r[num];
@@ -62,7 +64,7 @@ void RISM3D :: cal_LJ() {
   double iKbT = 1.0 / (avogadoro * boltzmann * sv -> temper);
   for (int iv = 0; iv < sv -> natv; ++iv) {
 #pragma omp parallel for
-    for (int ig = 0; ig < ce -> ngrid; ++ig) {
+    for (int ig = 0; ig < ce -> mgrid; ++ig) {
       uuv[iv][ig] *= iKbT;
     }
   }

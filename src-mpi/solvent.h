@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <string>
+#include <mpi.h>
 using namespace std;
 
 class Solvent {
@@ -10,6 +11,7 @@ class Solvent {
   Solvent () {}
   ~Solvent ();
   void read (string);
+  void setup_mpi (int);
   void spline (vector <double> &, int * &, int, int);
   vector <vector <double *> > xvva;
   double * rhov;

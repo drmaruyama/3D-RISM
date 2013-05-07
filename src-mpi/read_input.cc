@@ -23,9 +23,9 @@ void RISM3D :: read_input (char inputfile[]) {
 
     string closure;
     in_file >> closure;
-    if (closure == "HNC") {
+    if (closure == "KH") {
       clos = 0;
-    } else if (closure == "KH") {
+    } else if (closure == "HNC") {
       clos = 1;
     } else {
       cout << "3D-RISM: unexpected closure switch " << endl;
@@ -52,6 +52,7 @@ void RISM3D :: read_input (char inputfile[]) {
   MPI_Bcast(&clos, 1, MPI_INT, 0, MPI_COMM_WORLD);
   MPI_Bcast(&num, 1, MPI_INT, 0, MPI_COMM_WORLD);
   if (myrank != 0) su -> init(num);
+  co -> setup_mpi();
   ma -> setup_mpi();
   ce -> setup();
   su -> setup_mpi();

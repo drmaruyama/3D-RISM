@@ -10,14 +10,14 @@ void RISM3D :: cal_grad(double * & du) {
   }
 
   for (int iv = 0; iv < sv -> natv; ++iv) {
-    for (int iz = 0; iz < ce -> grid[2]; ++iz) { 
+    for (int iz = ce -> zstart; iz < ce -> zend; ++iz) { 
       double z = (iz - ce -> grid[2] / 2) * ce -> dr[2];
       for (int iy = 0; iy < ce -> grid[1]; ++iy) { 
 	double y = (iy - ce -> grid[1] / 2) * ce -> dr[1];
 	for (int ix = 0; ix < ce -> grid[0]; ++ix) { 
 	  double x = (ix - ce -> grid[0] / 2) * ce -> dr[0];
 	  int ig = ix + iy * ce -> grid[0] 
-	    + iz * ce -> grid[0] * ce -> grid[1];
+	    + (iz - ce -> zstart) * ce -> grid[0] * ce -> grid[1];
 #pragma omp parallel for 
 	  for (int iu = 0; iu < su -> num; ++iu) {
 	    int num = iu * 3;

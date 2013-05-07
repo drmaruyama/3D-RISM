@@ -7,10 +7,10 @@ void RISM3D :: iterate() {
   void alloc2D (vector <double *> &, int, int);
   void calloc2D (vector <complex <double> *> &, int, int);
 
-  calloc2D (guv, sv -> natv, ce -> ngrid);
-  calloc2D (huv, sv -> natv, ce -> ngrid);
-  alloc2D (tuv, sv -> natv, ce -> ngrid);
-  alloc2D (tuvdif, sv -> natv, ce -> ngrid);
+  calloc2D (guv, sv -> natv, ce -> mgrid);
+  calloc2D (huv, sv -> natv, ce -> mgrid);
+  alloc2D (tuv, sv -> natv, ce -> mgrid);
+  alloc2D (tuvdif, sv -> natv, ce -> mgrid);
 
   ifstream in_file ;
   in_file.open((fname + exttuv).c_str());
@@ -20,12 +20,12 @@ void RISM3D :: iterate() {
   if (saved) {
     read_tuv();
   } else {
-    initialize_tuv();
+    initialize_tuv(myrank);
   }
-  ma -> initialize (sv -> rhov, ce -> ngrid, sv -> natv);
-  fft -> initialize (ce -> box, ce -> grid);
+  ma -> initialize (sv -> rhov, ce -> mgrid, sv -> natv);
+  fft -> initialize (ce -> box, ce -> grid, ce -> zstart, ce -> zend);
 
-  cout << "relaxing 3D UV RISM:" << endl;
+  if (myrank == 0) cout << "relaxing 3D UV RISM:" << endl;
   bool conver = false;
   for (int istep = 1; istep <= co -> maxstep; ++istep) {
     calculate();
@@ -36,7 +36,9 @@ void RISM3D :: iterate() {
     } else {
       ma -> calculate (tuv, tuvdif);
     }
-    cout << " Step = " << istep << " Reside = " << rms << endl;
+    if (myrank == 0) {
+      cout << " Step = " << istep << " Reside = " << rms << endl;
+    }
     if (co -> ksave > 0 && istep % co -> ksave == 0) {
       write_tuv();
     }
@@ -46,7 +48,9 @@ void RISM3D :: iterate() {
     }
   }
   if (!conver) {
-    cout << "3D UV RISM: reached limit # of relaxation steps: "
-	 << co -> maxstep << endl ;
+    if (myrank == 0) {
+      cout << "3D UV RISM: reached limit # of relaxation steps: "
+	   << co -> maxstep << endl;
+    }
   }
 } 
