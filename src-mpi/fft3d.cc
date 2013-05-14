@@ -2,22 +2,12 @@
 #include "fft3d.h"
 
 void FFT3D :: initialize (double * & box, int * & ng3, int zs, int ze) {
-  //  fftw_init_threads();
+  fftw_init_threads();
   fftw_mpi_init();
-  //  int omp_num;
-  //#pragma omp parallel
-  //  omp_num = omp_get_num_threads();
-
-  //  fftw_plan_with_nthreads(omp_num);
-
-  //  in = (fftw_complex *) fftw_malloc(sizeof(fftw_complex) 
-  //				    * ng3[0] * ng3[1] * ng3[2]);
-  //  out = (fftw_complex *) fftw_malloc(sizeof(fftw_complex) 
-  //				     * ng3[0] * ng3[1] * ng3[2]);
-  //  pf = fftw_plan_dft_3d(ng3[2], ng3[1], ng3[0], in, out, 
-  //			FFTW_BACKWARD, FFTW_MEASURE);
-  //  pb = fftw_plan_dft_3d(ng3[2], ng3[1], ng3[0], in, out, 
-  //			FFTW_FORWARD, FFTW_MEASURE);
+  int omp_num;
+#pragma omp parallel
+  omp_num = omp_get_num_threads();
+  fftw_plan_with_nthreads(omp_num);
 
   double dkx = M_PI / ng3[0];
   double dky = M_PI / ng3[1];

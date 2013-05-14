@@ -21,15 +21,15 @@ void RISM3D :: initialize_g() {
 #pragma omp parallel for
   for (int igz = 0; igz < ngz; ++igz) {
     double lgz = igz - ngz / 2 + 0.5;
+    double gz = 2.0 * M_PI / ce -> box[2] * lgz;
     for (int igy = 0; igy < ngy; ++igy) {
       double lgy = igy - ngy / 2 + 0.5;
+      double gy = 2.0 * M_PI / ce -> box[1] * lgy;
       for (int igx = 0; igx < ngx; ++igx) {
 	double lgx = igx - ngx / 2 + 0.5;
-	int igk = igx + igy * ngx + igz * ngy * ngx;
-
 	double gx = 2.0 * M_PI / ce -> box[0] * lgx;
-	double gy = 2.0 * M_PI / ce -> box[1] * lgy;
-	double gz = 2.0 * M_PI / ce -> box[2] * lgz;
+
+	int igk = igx + igy * ngx + igz * ngy * ngx;
 	gv[igk][0] = gx;
 	gv[igk][1] = gy;
 	gv[igk][2] = gz;

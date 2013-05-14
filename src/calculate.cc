@@ -25,14 +25,7 @@ void RISM3D :: calculate () {
   for (int iv = 0; iv < sv -> natv; ++iv) {
 #pragma omp parallel for
     for (int ig = 0; ig < ce -> ngrid; ++ig) {
-      guv[iv][ig] = tuvdif[iv][ig] - 1.0 - tuv[iv][ig];
-    }
-  }
-
-  for (int iv = 0; iv < sv -> natv; ++iv) {
-#pragma omp parallel for
-    for (int ig = 0; ig < ce -> ngrid; ++ig) {
-      guv[iv][ig] += sv -> qv[iv] * fr[ig];
+      guv[iv][ig] = tuvdif[iv][ig] - 1.0 - tuv[iv][ig] + sv -> qv[iv] * fr[ig];
     }
   }
 
@@ -44,13 +37,14 @@ void RISM3D :: calculate () {
 #pragma omp parallel for
     for (int ig = 0; ig < ce -> ngrid; ++ig) {
       guv[iv][ig] -= sv -> qv[iv] * fk[ig];
+      huv[iv][ig] = complex <double> (0.0, 0.0);
     }
   }
 
-  for (int iv1 = 0; iv1 < sv -> natv; ++iv1) {
+  for (int iv = 0; iv < sv -> natv; ++iv) {
 #pragma omp parallel for
     for (int ig = 0; ig < ce -> ngrid; ++ig) {
-      huv[iv1][ig] = complex <double> (0.0, 0.0);
+      huv[iv][ig] = complex <double> (0.0, 0.0);
     }
   }
 

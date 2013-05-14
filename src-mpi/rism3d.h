@@ -33,7 +33,7 @@ private:
   void cal_LJ ();
   double cal_pmv ();
   void cal_potential ();
-  void cal_sum (double &, double &);
+  double cal_rms ();
   void calculate ();
   void initialize_g ();
   void initialize_tuv (int);

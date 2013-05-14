@@ -17,7 +17,9 @@ int main (int argc, char * argv[]) {
     return(1);
   }
 
-  MPI_Init(&argc, &argv);
+  //  MPI_Init(&argc, &argv);
+  int provided;
+  MPI_Init_thread(&argc, &argv, MPI_THREAD_FUNNELED, &provided);
 
   system -> initialize(argv[1]);
   system -> iterate();

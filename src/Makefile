@@ -16,7 +16,7 @@ OBJS   	= main.o\
 	  cal_LJ.o\
 	  cal_pmv.o\
 	  cal_potential.o\
-	  cal_sum.o\
+	  cal_rms.o\
 	  calculate.o\
 	  calloc2D.o\
 	  cell.o\

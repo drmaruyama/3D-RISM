@@ -29,8 +29,7 @@ void RISM3D :: iterate() {
   bool conver = false;
   for (int istep = 1; istep <= co -> maxstep; ++istep) {
     calculate();
-    double ovl00, rms;
-    cal_sum (ovl00, rms);
+    double rms = cal_rms ();
     if (rms <= co -> convergence) {
       conver = true;
     } else {
