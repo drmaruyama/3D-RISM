@@ -47,7 +47,7 @@ void RISM3D :: cal_Coulomb (double * & euv) {
 	  }
 	  fk[ig] += 
 	    complex<double> (4.0 * M_PI * su -> q[iu] * irk4, 0.0) 
-	    * exp(complex<double> (0.0, ruk));
+	    * exp(complex<double> (0.0, - ruk));
 	}
       }
     }

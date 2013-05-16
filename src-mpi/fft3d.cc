@@ -22,9 +22,9 @@ void FFT3D :: initialize (double * & box, int * & ng3, int zs, int ze) {
   in = (fftw_complex *) fftw_malloc(sizeof(fftw_complex) * mgr);
   out = (fftw_complex *) fftw_malloc(sizeof(fftw_complex) * mgr);
   pf = fftw_mpi_plan_dft_3d(ng3[2], ng3[1], ng3[0], in, out, MPI_COMM_WORLD,
-			    FFTW_BACKWARD, FFTW_MEASURE);
-  pb = fftw_mpi_plan_dft_3d(ng3[2], ng3[1], ng3[0], in, out, MPI_COMM_WORLD,
 			    FFTW_FORWARD, FFTW_MEASURE);
+  pb = fftw_mpi_plan_dft_3d(ng3[2], ng3[1], ng3[0], in, out, MPI_COMM_WORLD,
+			    FFTW_BACKWARD, FFTW_MEASURE);
 #pragma omp parallel for 
   for (int iz = zs; iz < ze; ++iz) {
     double lgz = iz - ng3[2] / 2;
@@ -35,8 +35,8 @@ void FFT3D :: initialize (double * & box, int * & ng3, int zs, int ze) {
 	int ig = ix + iy * ng3[0] + (iz - zs) * ng3[1] * ng3[0];
 	double dkr = dkx * lgx + dky * lgy + dkz * lgz;
 	complex<double> cdkr = complex <double> (0.0, dkr);
-	kf[ig] = exp(cdkr);
-	kb[ig] = exp(- cdkr);
+	kf[ig] = exp(- cdkr);
+	kb[ig] = exp(cdkr);
 	if ((ix + iy + iz) % 2 == 0) {
 	  ir[ig] = 1;
 	} else {
@@ -48,7 +48,7 @@ void FFT3D :: initialize (double * & box, int * & ng3, int zs, int ze) {
 }
 
 void FFT3D :: execute (complex <double> * & data, int key) {
-  if (key == 1) {
+  if (key == - 1) {
 #pragma omp parallel for
     for (int ig = 0; ig < mgr; ++ig) {
       complex <double> tmp = data[ig] * kf[ig];

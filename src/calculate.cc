@@ -30,7 +30,7 @@ void RISM3D :: calculate () {
   }
 
   for (int iv = 0; iv < sv -> natv; ++iv) {
-    fft -> execute(guv[iv], 1);
+    fft -> execute(guv[iv], - 1);
   }
 
   for (int iv = 0; iv < sv -> natv; ++iv) {
@@ -58,7 +58,7 @@ void RISM3D :: calculate () {
   }
 
   for (int iv = 0; iv < sv -> natv; ++iv) {
-    fft -> execute(huv[iv], - 1);
+    fft -> execute(huv[iv], 1);
   }
 
   for (int iv = 0; iv < sv -> natv; ++iv) {
