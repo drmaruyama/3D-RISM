@@ -9,11 +9,11 @@ void RISM3D :: output() {
 
   int flag = 0;
   if (myrank == 0) {
-    if (outlist.find("m") != -1) flag += 1;
-    if (outlist.find("d") != -1) flag += 2;
-    if (outlist.find("c") != -1) flag += 4;
-    if (outlist.find("g") != -1) flag += 8;
-    if (outlist.find("h") != -1) flag += 16;
+    if (outlist.find("m") != string::npos) flag += 1;
+    if (outlist.find("d") != string::npos) flag += 2;
+    if (outlist.find("c") != string::npos) flag += 4;
+    if (outlist.find("g") != string::npos) flag += 8;
+    if (outlist.find("h") != string::npos) flag += 16;
   }
 
   MPI_Bcast(&flag, 1, MPI_INT, 0, MPI_COMM_WORLD);
