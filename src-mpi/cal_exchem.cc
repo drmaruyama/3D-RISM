@@ -1,3 +1,4 @@
+#include <iostream>
 #include "rism3d.h"
 
 void RISM3D :: cal_exchem (double * & xmu) {
@@ -16,7 +17,7 @@ void RISM3D :: cal_exchem (double * & xmu) {
 	  dxmuv += h * 0.5 * tuv[iv][ig] - cuv;
 	}
       }
-      xmu[iv] = sv -> rhov[iv] * dxmuv;
+      xmu[iv] = dxmuv;
     }
   } else if (clos == 1) {
     for (int iv = 0; iv < sv -> natv; ++iv) {
@@ -26,11 +27,16 @@ void RISM3D :: cal_exchem (double * & xmu) {
 	double h = huv[iv][ig].real();
 	dxmuv += h * 0.5 * tuv[iv][ig] + tuv[iv][ig] - h;
       }
-      xmu[iv] = sv -> rhov[iv] * dxmuv;
+      xmu[iv] = dxmuv;
     }
   } 
-
-  for (int iv = 0; iv < sv -> natv; ++iv) {
-    xmu[iv] = xmu[iv] * ce -> dv;
+  double * xmu2;
+  if (myrank == 0) xmu2 = new double[sv -> natv];
+  MPI_Reduce(xmu, xmu2, sv -> natv, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+  if (myrank == 0) {
+    for (int iv = 0; iv < sv -> natv; ++iv) {
+      xmu[iv] = xmu2[iv] * ce -> dv * sv -> rhov[iv];
+    }
+    delete[] xmu2;
   }
 } 

@@ -4,7 +4,7 @@
 
 #include "rism3d.h"
 
-void RISM3D :: initialize_tuv (int myrank) {
+void RISM3D :: initialize_tuv () {
 
   if (myrank == 0) {
     cout << "synthesizing initial estimate for Tuv ..." << endl ;

@@ -20,7 +20,7 @@ void RISM3D :: iterate() {
   if (saved) {
     read_tuv();
   } else {
-    initialize_tuv(myrank);
+    initialize_tuv();
   }
   ma -> initialize (sv -> rhov, ce -> mgrid, sv -> natv);
   fft -> initialize (ce -> box, ce -> grid, ce -> zstart, ce -> zend);
@@ -52,4 +52,6 @@ void RISM3D :: iterate() {
 	   << co -> maxstep << endl;
     }
   }
+  delete ma;
+  delete fft;
 } 

@@ -4,9 +4,12 @@ void RISM3D :: cal_grad(double * & du) {
 
   const double cc = hartree * bohr * avogadoro;
 
+  double * du2;
+  du2 = new double[su -> num * 3];
+
 #pragma omp parallel for
   for (int iu = 0; iu < su -> num * 3; ++iu) {
-    du[iu] = 0.0;
+    du2[iu] = 0.0;
   }
 
   for (int iv = 0; iv < sv -> natv; ++iv) {
@@ -35,13 +38,15 @@ void RISM3D :: cal_grad(double * & du) {
 	      double ulj = epsuv[iv][iu] * 24.0 * rs6i / r2 
 		* (2.0 * rs6i - 1.0) * gr;
 	      double uco = su -> q[iu] * sv -> qv[iv] / (r2 * r1) * cc * gr;
-	      du[iu * 3] += (ulj + uco) * dx;
-	      du[iu * 3 + 1] += (ulj + uco) * dy;
-	      du[iu * 3 + 2] += (ulj + uco) * dz;
+	      du2[iu * 3] += (ulj + uco) * dx;
+	      du2[iu * 3 + 1] += (ulj + uco) * dy;
+	      du2[iu * 3 + 2] += (ulj + uco) * dz;
 	    }
 	  }
 	}
       }
     }
   }
+  MPI_Reduce(du2, du, su -> num * 3, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+  delete[] du2;
 }

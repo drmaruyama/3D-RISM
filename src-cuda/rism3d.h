@@ -8,7 +8,6 @@
 #include <string>
 #include <valarray>
 #include <vector>
-#include <mpi.h>
 #include "physical.h"
 #include "cell.h"
 #include "control.h"
@@ -27,7 +26,7 @@ public:
   void iterate ();    
   void output ();
 private:
-  void cal_Coulomb (double * &);
+  void cal_Coulomb ();
   void cal_exchem (double * &);
   void cal_grad (double * &);
   void cal_LJ ();
@@ -45,29 +44,39 @@ private:
   void read_input (char[]);
   void read_tuv ();
   void set_fname (char[]);
-  void set_mpi ();
+  void set_cuda ();
   void set_solvent ();
   void write_tuv ();
 
+  // Host
   vector <complex <double> *> guv;
   vector <complex <double> *> huv;
   vector <double *> tuv;
-  vector <double *> tuvdif;
-  vector <double *> gv;
-  vector <double *> uuv;
-  vector <double *> siguv;
-  vector <double *> epsuv;
-  double * fr;
-  complex <double> * fk;
   vector <double> ga;
+  double * siguv;
+  double * epsuv;
   int * indga;
-
+  int clos;
+  int nga;
   string outlist;
   string fsolvent;
   string fname;
-  int clos;
-  int nga;
-  int procs, myrank;
+  dim3 g, b;
+
+  // Device
+  double2 * dguv;
+  double2 * dhuv;
+  double * dt;
+  double * dtr;
+  double * du;
+  double * de;
+  double3 * dgv;
+  double * dsig;
+  double * deps;
+  double * dx;
+  double * dfr;
+  double2 * dfk;
+  double * ds;
 
   Cell * ce;
   Control * co;

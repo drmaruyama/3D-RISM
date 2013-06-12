@@ -22,28 +22,20 @@ void RISM3D :: output() {
     double pmv = cal_pmv();
     double * xmu = new double[sv -> natv];
     cal_exchem(xmu);
-    double * xmu2;
-    if (myrank == 0) xmu2 = new double[sv -> natv];
-    MPI_Reduce(xmu, xmu2, sv -> natv, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     if (myrank == 0) {
-      output_xmu(xmu2, pmv);
-      delete[] xmu2;
+      output_xmu(xmu, pmv);
     }
     delete[] xmu;
   }
 
   if ((flag & 2) == 2) {
     double * du;
-    double * du2;
-    du = new double[su -> num * 3];
+    if (myrank == 0) du = new double[su -> num * 3];
     cal_grad(du);
-    if (myrank == 0) du2 = new double[su -> num * 3];
-    MPI_Reduce(du, du2, su -> num * 3, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
     if (myrank == 0) {
-      output_grad(du2);
-      delete[] du2;
+      output_grad(du);
+      delete[] du;
     }
-    delete[] du;
   }
 
   if ((flag & 4) == 4) {
