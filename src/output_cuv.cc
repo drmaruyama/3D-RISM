@@ -34,7 +34,7 @@ void RISM3D :: output_cuv() {
   
   for (int ig = 0; ig < ce -> ngrid; ++ig) {
     for (int iv = 0; iv < sv -> natv; ++iv) {
-      out_file << huv[iv][ig] - tuv[iv][ig] << " ";
+      out_file << huv[iv][ig].real() - tuv[iv][ig] << " ";
     }
     out_file << endl;
   }

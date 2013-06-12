@@ -7,13 +7,13 @@ void RISM3D :: output() {
 
   transform(outlist.begin(), outlist.end(), outlist.begin(), ::tolower);
   
-  if (outlist.find("m") != -1) {
+  if (outlist.find("m") != string::npos) {
     double pmv = cal_pmv();
     valarray <double> xmu = cal_exchem();
     output_xmu(xmu, pmv);
   }
 
-  if (outlist.find("d") != -1) {
+  if (outlist.find("d") != string::npos) {
     double * du;
     du = new double[su -> num * 3];
     cal_grad(du);
@@ -21,15 +21,15 @@ void RISM3D :: output() {
     delete[] du;
   }
 
-  if (outlist.find("c") != -1) {
+  if (outlist.find("c") != string::npos) {
     output_cuv();
   }
 
-  if (outlist.find("g") != -1) {
+  if (outlist.find("g") != string::npos) {
     output_guv();
   }
 
-  if (outlist.find("h") != -1) {
+  if (outlist.find("h") != string::npos) {
     output_huv();
   }
 } 
