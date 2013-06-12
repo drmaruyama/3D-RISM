@@ -1,5 +1,9 @@
-Solvation Free Energy = -4.51414 (kcal/mol)
-  0 -----> 20.5068
-  1 -----> -25.021
+Solvation Free Energy = -4.51423 (kcal/mol)
+  0 -----> 20.505
+  1 -----> -25.0193
 
-PMV  = 16.9853 (cc/mol)
+SFE (GF) = -6.52801 (kcal/mol)
+  0 -----> 19.6837
+  1 -----> -26.2117
+
+PMV  = 16.985 (cc/mol)
