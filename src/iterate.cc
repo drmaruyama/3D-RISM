@@ -3,14 +3,19 @@
 #include "rism3d.h"
 #include "extension.h"
 
-void RISM3D :: iterate() {
+void RISM3D :: iterate(int cu) {
   void alloc2D (vector <double *> &, int, int);
   void calloc2D (vector <complex <double> *> &, int, int);
+
+  double cf, cuf;
 
   calloc2D (guv, sv -> natv, ce -> ngrid);
   calloc2D (huv, sv -> natv, ce -> ngrid);
   alloc2D (tuv, sv -> natv, ce -> ngrid);
   alloc2D (tuvdif, sv -> natv, ce -> ngrid);
+
+  ma -> initialize (sv -> rhov, ce -> ngrid, sv -> natv);
+  fft -> initialize (ce -> box, ce -> grid);
 
   ifstream in_file ;
   in_file.open((fname + exttuv).c_str());
@@ -19,33 +24,45 @@ void RISM3D :: iterate() {
 
   if (saved) {
     read_tuv();
+    cu = 0;
+    cf = 1.0;
+  } else if (cu == 0) {
+    cf = 1.0;
+    initialize_tuv(cf);
   } else {
-    initialize_tuv();
+    cuf = 1.0 / cu;
+    cf = 0.0;
+    initialize_tuv(cf);
   }
-  ma -> initialize (sv -> rhov, ce -> ngrid, sv -> natv);
-  fft -> initialize (ce -> box, ce -> grid);
 
-  cout << "relaxing 3D UV RISM:" << endl;
-  bool conver = false;
-  for (int istep = 1; istep <= co -> maxstep; ++istep) {
-    calculate();
-    double rms = cal_rms ();
-    if (rms <= co -> convergence) {
-      conver = true;
-    } else {
-      ma -> calculate (tuv, tuvdif);
+  for (int c = 0; c <= cu; ++c) {
+    if (c > 0) {
+      cf += cuf;
+      if (cf > 1.0) cf = 1.0;
+      add_tuv(cuf);
     }
-    cout << " Step = " << istep << " Reside = " << rms << endl;
-    if (co -> ksave > 0 && istep % co -> ksave == 0) {
-      write_tuv();
+    cout << "relaxing 3D UV RISM: Charge Up Factor = " << cf << endl;
+    bool conver = false;
+    for (int istep = 1; istep <= co -> maxstep; ++istep) {
+      calculate(cf);
+      double rms = cal_rms ();
+      if (rms <= co -> convergence) {
+	conver = true;
+      } else {
+	ma -> calculate (tuv, tuvdif);
+      }
+      cout << " Step = " << istep << " Reside = " << rms << endl;
+      if (co -> ksave > 0 && istep % co -> ksave == 0 && c == cu) {
+	write_tuv();
+      }
+      if (conver) {
+	if (co -> ksave != 0) write_tuv();
+	break;
+      }
     }
-    if (conver) {
-      if (co -> ksave != 0) write_tuv();
-      break;
+    if (!conver) {
+      cout << "3D UV RISM: reached limit # of relaxation steps: "
+	   << co -> maxstep << endl ;
     }
-  }
-  if (!conver) {
-    cout << "3D UV RISM: reached limit # of relaxation steps: "
-	 << co -> maxstep << endl ;
   }
 } 

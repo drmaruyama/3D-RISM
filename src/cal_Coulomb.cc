@@ -1,7 +1,7 @@
 #include <iostream>
 #include "rism3d.h"
 
-void RISM3D :: cal_Coulomb (double * & euv) {
+void RISM3D :: cal_Coulomb () {
 
   euv = new double[ce -> ngrid];
   fr = new double[ce -> ngrid];

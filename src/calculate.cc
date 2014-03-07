@@ -1,11 +1,13 @@
 #include "rism3d.h"
 
-void RISM3D :: calculate () {
+void RISM3D :: calculate (double cf) {
+
   if (clos == 0) {
     for (int iv = 0; iv < sv -> natv; ++iv) {
+      double q = sv -> qv[iv] * cf;
 #pragma omp parallel for
       for (int ig = 0; ig < ce -> ngrid; ++ig) {
-	double earg = - uuv[iv][ig] + tuv[iv][ig];
+	double earg = - uuv[iv][ig] - euv[ig] * q + tuv[iv][ig];
 	if (earg >= 0.0) {
 	  tuvdif[iv][ig] = 1.0 + earg;
 	} else {
@@ -15,17 +17,19 @@ void RISM3D :: calculate () {
     }
   } else if (clos == 1) {
     for (int iv = 0; iv < sv -> natv; ++iv) {
+      double q = sv -> qv[iv] * cf;
 #pragma omp parallel for
       for (int ig = 0; ig < ce -> ngrid; ++ig) {
-	tuvdif[iv][ig] = exp(- uuv[iv][ig] + tuv[iv][ig]);
+	tuvdif[iv][ig] = exp(- uuv[iv][ig] - euv[ig] * q + tuv[iv][ig]);
       }
     }
   }
 
   for (int iv = 0; iv < sv -> natv; ++iv) {
+    double q = sv -> qv[iv] * cf;
 #pragma omp parallel for
     for (int ig = 0; ig < ce -> ngrid; ++ig) {
-      guv[iv][ig] = tuvdif[iv][ig] - 1.0 - tuv[iv][ig] + sv -> qv[iv] * fr[ig];
+      guv[iv][ig] = tuvdif[iv][ig] - 1.0 - tuv[iv][ig] + q * fr[ig];
     }
   }
 
@@ -34,9 +38,10 @@ void RISM3D :: calculate () {
   }
 
   for (int iv = 0; iv < sv -> natv; ++iv) {
+    double q = sv -> qv[iv] * cf;
 #pragma omp parallel for
     for (int ig = 0; ig < ce -> ngrid; ++ig) {
-      guv[iv][ig] -= sv -> qv[iv] * fk[ig];
+      guv[iv][ig] -= q * fk[ig];
       huv[iv][ig] = complex <double> (0.0, 0.0);
     }
   }

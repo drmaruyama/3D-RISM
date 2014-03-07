@@ -23,19 +23,20 @@ public:
     sv = new Solvent; ma = new AN2; fft = new FFT3D;}
   ~RISM3D () {delete ce, co, su, sv;} 
   void initialize (char[]);
-  void iterate ();    
+  void iterate (int);    
   void output ();
 private:
-  void cal_Coulomb (double * &);
+  void add_tuv(double);
+  void cal_Coulomb ();
   valarray <double> cal_exchem ();
   void cal_grad (double * &);
   void cal_LJ ();
   double cal_pmv ();
   void cal_potential ();
   double cal_rms ();
-  void calculate ();
+  void calculate (double);
   void initialize_g ();
-  void initialize_tuv ();
+  void initialize_tuv (double);
   void output_cuv ();
   void output_grad (double * &);
   void output_guv ();
@@ -55,6 +56,7 @@ private:
   vector <double *> uuv;
   vector <double *> siguv;
   vector <double *> epsuv;
+  double * euv;
   double * fr;
   complex <double> * fk;
   vector <double> ga;

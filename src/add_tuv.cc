@@ -4,15 +4,13 @@
 
 #include "rism3d.h"
 
-void RISM3D :: initialize_tuv (double cf) {
+void RISM3D :: add_tuv (double cuf) {
 
-  cout << "synthesizing initial estimate for Tuv ..." << endl ;
-  
   for (int iv = 0; iv < sv -> natv; ++iv) {
-    double q = sv -> qv[iv] * cf;
+    double q = sv -> qv[iv] * cuf;
 #pragma omp parallel for
     for (int ig = 0; ig < ce -> ngrid; ++ig) {
-      tuv[iv][ig] = q * fr[ig];
+      tuv[iv][ig] += q * fr[ig];
     }
   }
 } 

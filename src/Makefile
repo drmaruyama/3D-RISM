@@ -7,6 +7,7 @@ CFLAGS 	= -O3 -fomit-frame-pointer -fopenmp
 LIBS = -lfftw3_threads -lfftw3 -lm
 
 OBJS   	= main.o\
+	  add_tuv.o\
 	  alloc2D.o\
 	  alloc3D.o\
 	  anderson.o\
