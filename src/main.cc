@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <unistd.h>
 #include "rism3d.h"
 
 int main (int argc, char * argv[]) {
