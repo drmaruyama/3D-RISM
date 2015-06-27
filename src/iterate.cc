@@ -56,7 +56,7 @@ void RISM3D :: iterate(int cu) {
 	write_tuv();
       }
       if (conver) {
-	if (co -> ksave != 0 && cf == 1.0) write_tuv();
+	if (co -> ksave != 0 && c == cu) write_tuv();
 	break;
       }
     }
