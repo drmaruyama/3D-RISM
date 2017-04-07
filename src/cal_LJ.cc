@@ -1,9 +1,8 @@
 #include <iostream>
+#include "alloc.h"
 #include "rism3d.h"
 
 void RISM3D :: cal_LJ() {
-  void alloc2D (vector <double *> &, int, int);
-
   const double cut = 1.0e-2;
   const double cut2 = cut * cut;
 

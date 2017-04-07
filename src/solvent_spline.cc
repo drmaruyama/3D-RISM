@@ -1,16 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
+#include "alloc.h"
 #include "solvent.h"
 
 void Solvent :: spline (vector <double> & ga, int * & indga,
 			int nga, int ngrid) {
-  void alloc2D (vector <double *> &, int, int);
-  void alloc3D (vector <vector <double *> > &, int, int, int);
-  void dealloc2D (vector <double *> &);
-  void dealloc3D (vector < vector <double *> > &);
-
   void spline (double * &, double * &, int, vector <double *> &);
   double splint (double * &, double * &, vector <double *> &, int, double);
 

@@ -1,16 +1,14 @@
 #include <iostream>
 #include <fstream>
+#include "alloc.h"
 #include "rism3d.h"
 #include "extension.h"
 
 void RISM3D :: iterate(int cu) {
-  void alloc2D (vector <double *> &, int, int);
-  void calloc2D (vector <complex <double> *> &, int, int);
-
   double cf, cuf;
 
-  calloc2D (guv, sv -> natv, ce -> ngrid);
-  calloc2D (huv, sv -> natv, ce -> ngrid);
+  alloc2D (guv, sv -> natv, ce -> ngrid);
+  alloc2D (huv, sv -> natv, ce -> ngrid);
   alloc2D (tuv, sv -> natv, ce -> ngrid);
   alloc2D (tuvdif, sv -> natv, ce -> ngrid);
 

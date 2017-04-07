@@ -1,11 +1,11 @@
 #include <iostream>
 #include <fstream>
+#include "alloc.h"
 #include "rism3d.h"
 
 using namespace std;
 
 void RISM3D :: initialize_g() {
-  void alloc2D (vector <double *> &, int, int);
   void index(double * &, int * &, int);
 
   int ngx = ce -> grid[0];

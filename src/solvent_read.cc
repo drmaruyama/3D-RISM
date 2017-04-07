@@ -1,12 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
+#include "alloc.h"
 #include "solvent.h"
 #include "version.h"
 
 void Solvent :: read(string fsolvent) {
-  void alloc3D (vector <vector <double * > > &, int, int, int);
   
   ifstream in_file;
   in_file.open(fsolvent.c_str());

@@ -8,8 +8,6 @@ LIBS = -lfftw3_threads -lfftw3 -lm
 
 OBJS   	= main.o\
 	  add_tuv.o\
-	  alloc2D.o\
-	  alloc3D.o\
 	  anderson.o\
 	  cal_Coulomb.o\
 	  cal_exchem.o\
@@ -19,10 +17,7 @@ OBJS   	= main.o\
 	  cal_potential.o\
 	  cal_rms.o\
 	  calculate.o\
-	  calloc2D.o\
 	  cell.o\
-	  dealloc2D.o\
-	  dealloc3D.o\
 	  fft3d.o\
 	  index.o\
 	  initialize.o\

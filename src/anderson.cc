@@ -1,16 +1,14 @@
 #include <iostream>
-
+#include "alloc.h"
 #include "anderson.h"
 
 AN2 :: ~AN2 () {
-  void dealloc2D (vector <double *> &);
   delete[] a, c, x;
   dealloc2D (tp);
   dealloc2D (rp);
 }
 
 void AN2 :: initialize (double * & rhov, int r, int v) {
-  void alloc2D (vector <double *> &, int, int);
 
   ngrid = r ;
   niv = v ;
