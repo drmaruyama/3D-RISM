@@ -27,6 +27,8 @@ void Solvent :: read(string fsolvent) {
   qv = new double[natv];
   sigv = new double[natv];
   epsv = new double[natv];
+  pfhs = new double[natv];
+  wfk0 = new double[natv];
 
   for (int iv = 0; iv < natv; ++iv) {
     in_file >> multv[iv] >> rhov[iv] >> qv[iv] >> sigv[iv] >> epsv[iv];
@@ -45,8 +47,12 @@ void Solvent :: read(string fsolvent) {
   in_file >> ntab;
 
   ttab = new double[ntab];
+  ttab2 = new double[ntab];
     
   alloc3D (xvv, natv, natv, ntab);
+  alloc3D (cvv, natv, natv, ntab);
+  alloc2D (chs, natv, ntab);
+  alloc2D (wfk, natv, ntab);
 
   for (int n = 0; n < ntab; ++n) {
     in_file >> ttab[n];
@@ -57,6 +63,24 @@ void Solvent :: read(string fsolvent) {
     }
   }
 
+  double dummy;
+  for (int n = 0; n < ntab; ++n) {
+    in_file >> dummy;
+    for (int iv2 = 0; iv2 < natv; ++iv2) {
+      for (int iv1 = 0; iv1 < natv; ++iv1) {
+	in_file >> cvv[iv2][iv1][n];
+      }
+    }
+  }
+
+  for (int iv = 0; iv < natv; ++iv) {
+    in_file >> pfhs[iv] >> wfk0[iv];
+    for (int n = 0; n < ntab; ++n) {
+      in_file >> ttab2[n];
+      in_file >> chs[iv][n];
+      in_file >> wfk[iv][n];
+    }
+  }
+
   in_file.close();
 }
-

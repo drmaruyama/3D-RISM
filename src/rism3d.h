@@ -29,6 +29,7 @@ private:
   void add_tuv(double);
   void cal_Coulomb ();
   valarray <double> cal_exchem ();
+  double cal_exnew ();
   void cal_grad (double * &);
   void cal_LJ ();
   double cal_pmv ();
@@ -41,7 +42,7 @@ private:
   void output_grad (double * &);
   void output_guv ();
   void output_huv ();
-  void output_xmu (valarray <double> &, double);
+  void output_xmu (valarray <double> &, double, double);
   void read_input (char[]);
   void read_tuv ();
   void set_fname (char[]);

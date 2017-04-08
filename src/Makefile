@@ -11,6 +11,7 @@ OBJS   	= main.o\
 	  anderson.o\
 	  cal_Coulomb.o\
 	  cal_exchem.o\
+	  cal_exnew.o\
 	  cal_grad.o\
 	  cal_LJ.o\
 	  cal_pmv.o\
@@ -18,6 +19,7 @@ OBJS   	= main.o\
 	  cal_rms.o\
 	  calculate.o\
 	  cell.o\
+	  excp_fd.o\
 	  fft3d.o\
 	  index.o\
 	  initialize.o\
@@ -37,6 +39,7 @@ OBJS   	= main.o\
 	  solute.o\
 	  solvent_read.o\
 	  solvent_spline.o\
+	  solvent_spline2.o\
 	  spline.o\
 	  splint.o\
 	  write_tuv.o\

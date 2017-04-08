@@ -10,7 +10,8 @@ void RISM3D :: output() {
   if (outlist.find("m") != string::npos) {
     double pmv = cal_pmv();
     valarray <double> xmu = cal_exchem();
-    output_xmu(xmu, pmv);
+    double dft = cal_exnew();
+    output_xmu(xmu, dft, pmv);
   }
 
   if (outlist.find("d") != string::npos) {
