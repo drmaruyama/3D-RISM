@@ -1,8 +1,6 @@
 CC 	= g++
 
-CFLAGS 	= -O3 -fomit-frame-pointer -fopenmp
-#CFLAGS 	= -O3 -march=i586 -fomit-frame-pointer -I/home/maruyama/libs/include
-#CFLAGS 	= -O3 -march=i686 -fomit-frame-pointer
+CFLAGS 	= -O3 -fomit-frame-pointer -fopenmp -std=c++11
 #LIBS = -L/home/maruyama/libs/lib -lfftw3 
 LIBS = -lfftw3_threads -lfftw3 -lm
 
@@ -19,7 +17,6 @@ OBJS   	= main.o\
 	  calculate.o\
 	  cell.o\
 	  fft3d.o\
-	  index.o\
 	  initialize.o\
 	  initialize_g.o\
 	  initialize_tuv.o\
