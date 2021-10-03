@@ -1,12 +1,12 @@
 #include <iostream>
 #include <fstream>
+#include <numeric>
 #include "alloc.h"
 #include "rism3d.h"
 
 using namespace std;
 
 void RISM3D :: initialize_g() {
-  void index(double * &, int * &, int);
 
   int ngx = ce -> grid[0];
   int ngy = ce -> grid[1];
@@ -15,8 +15,6 @@ void RISM3D :: initialize_g() {
   alloc2D(gv, ce -> ngrid, 3);
   indga = new int[ce -> ngrid];
   double * g2 = new double[ce -> ngrid];
-  int * indg2 = new int[ce -> ngrid];
-
 
 #pragma omp parallel for
   for (int igz = 0; igz < ngz; ++igz) {
@@ -38,7 +36,12 @@ void RISM3D :: initialize_g() {
     }
   }
 
-  index(g2, indg2, ce -> ngrid);
+  vector<int> indg2(ce -> ngrid);
+  iota(indg2.begin(), indg2.end(), 0);
+  sort(indg2.begin(), indg2.end(), [&g2](size_t i1, size_t i2) {
+      return g2[i1] < g2[i2];
+    }
+  );
 
   double ga2o = - 1.0;
   nga = 0;
@@ -54,5 +57,4 @@ void RISM3D :: initialize_g() {
     indga[igs] = nga - 1;
   }
   delete[] g2;
-  delete[] indg2;
 } 
