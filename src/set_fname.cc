@@ -8,7 +8,5 @@ void RISM3D :: set_fname (string control, string structure) {
   } else {
     fname.append(structure);
   }
-  cout << fname << endl;
   fname = fname.substr(0, fname.rfind("."));
-  cout << fname << endl;
 }
