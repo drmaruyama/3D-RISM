@@ -34,11 +34,6 @@ int main (int argc, char * argv[]) {
     input = argv[optind];
   }
 
-  cout << "Input     : " << input << endl;
-  if (!structure.empty()) {
-    cout << "Structure : " << structure << endl;
-  }
-
   if (cu > 0) cout << "Charge up " << cu << endl;
   system -> initialize(input, structure);
   system -> iterate(cu);

@@ -10,7 +10,7 @@ void RISM3D :: read_input (string control, string structure) {
   ifstream in_file;
   in_file.open (control.c_str());
 
-  cout << "reading input data file:  " << control << endl;
+  cout << "reading input data file  : " << control << endl;
 
   string check;
   in_file >> outlist >> co -> ksave >> check;
@@ -37,6 +37,7 @@ void RISM3D :: read_input (string control, string structure) {
   if (!structure.empty()) {
     in_file.close ();
     in_file.open (structure.c_str());
+    cout << "reading solute data file : " << structure << endl;
   }
 
   int num;
